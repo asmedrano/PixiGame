@@ -34,8 +34,8 @@ GAME.Charectors.BaseCharector = function(type){
 	// CREATE TEXTURE
 	var texture = PIXI.Texture.fromImage(self.type_def.texture);
 	self.sprite = new PIXI.Sprite(texture);
-	//self.sprite.anchor.x = 0.5;
-    	//self.sprite.anchor.y = 0.5;
+	self.sprite.buttonMode = true;
+    	self.sprite.setInteractive(true);
 }
 
 GAME.Charectors.BaseCharector.prototype.add = function(){

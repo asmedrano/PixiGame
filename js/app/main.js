@@ -3,7 +3,7 @@ var GAME = GAME || {};
 
 // create an new instance of a pixi stage
 
-GAME.Stage = new PIXI.Stage(0xE3E3E3);
+GAME.Stage = new PIXI.Stage(0xE3E3E3, true);
 
 // create a renderer instance.
 
@@ -133,6 +133,8 @@ extend(GAME, {
 				var poss = GAME.Grid.grid_bounds[position];
 				charector.add();
 				charector.moveTo(poss.start_x, poss.start_y);
+			}else{
+				log('No poss: ' + position, "Not adding Charector");
 			}
 		}
 	}	
@@ -142,6 +144,13 @@ extend(GAME, {
 function render(){
 	requestAnimFrame(render);
 	GAME.render();
+}
+
+function log(){
+	if(DEBUG){
+ 		var args = [].join.call(arguments, ' ')
+		console.log(args);
+	}
 }
 
 
