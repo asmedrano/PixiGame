@@ -3,14 +3,14 @@ var GAME = GAME || {};
 
 // create an new instance of a pixi stage
 
-GAME.Stage = new PIXI.Stage(0xE3E3E3, true);
+GAME.Stage = new PIXI.Stage(0xE3E3E3);
 
 // create a renderer instance.
 
 GAME.Renderer = null;
 GAME.Conf = {
-	width:600,
-	height:100,
+	width:700,
+	height:700,
 	player_area_width:200
 }
 
@@ -20,7 +20,7 @@ GAME.UI = {
 }
 
 GAME.Grid = {
-	divisor:50,
+	divisor:20,
 	vert_size : 0,
 	horz_size : 0,
 
@@ -28,13 +28,14 @@ GAME.Grid = {
 
 extend(GAME, {
 	init:function(){
-		this.Conf.width = window.innerWidth - this.Conf.player_area_width - 5;
-		this.Conf.height = window.innerHeight;
+		//this.Conf.width = window.innerWidth - this.Conf.player_area_width - 5;
+		//this.Conf.height = this.Conf.width //window.innerHeight;
 		this.draw_ui();
 		this.Renderer = PIXI.autoDetectRenderer(this.Conf.width, this.Conf.height);
 		document.getElementById('stage').appendChild(this.Renderer.view);
-		requestAnimFrame(render);
 		this.generate_grid();
+		requestAnimFrame(render);
+		
 	},
 	render:function(){
 		this.Renderer.render(this.Stage);
@@ -58,9 +59,11 @@ extend(GAME, {
 		}
 		var grid_id;
 		// create bounds objects
+		var incr = 0;
 		for(var i = 0; i<this.Grid.divisor; i++){
 			for(var j=0; j < this.Grid.divisor; j++){
-				grid_id = i.toString()+j.toString();
+				incr++;
+				grid_id = incr;
 				this.Grid.grid_bounds[grid_id] = {
 					start_x: this.Grid.vert_poss_list[i], 
 					end_x : this.Grid.vert_poss_list[i] + this.Grid.vert_size,
@@ -117,7 +120,22 @@ extend(GAME, {
 		}
 		return result;
 			
-	}
+	},
+	add_charector:function(type, position){
+		/*
+		 * @method add_charector
+		 * @param type{String} the valid type of charector
+		 * @param position{Integer} a location on the grid. See GAME.Grid.grid_boudns
+		 * */
+		var charector = new GAME.Charectors.BaseCharector(type);
+		if(charector !== false){
+			if(GAME.Grid.grid_bounds.hasOwnProperty(position)){
+				var poss = GAME.Grid.grid_bounds[position];
+				charector.add();
+				charector.moveTo(poss.start_x, poss.start_y);
+			}
+		}
+	}	
 });
 
 
