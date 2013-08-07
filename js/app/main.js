@@ -9,8 +9,8 @@ GAME.Stage = new PIXI.Stage(0xE3E3E3, true);
 
 GAME.Renderer = null;
 GAME.Conf = {
-	width:700,
-	height:700,
+	width:600,
+	height:600,
 	player_area_width:200
 }
 
@@ -133,11 +133,38 @@ extend(GAME, {
 				var poss = GAME.Grid.grid_bounds[position];
 				charector.add();
 				charector.moveTo(poss.start_x, poss.start_y);
+				return charector.gid;
 			}else{
-				log('No poss: ' + position, "Not adding Charector");
+				log('add_charector: No poss: ' + position, "Not adding Charector");
+				return false;
 			}
 		}
-	}	
+
+	},
+	remove_charector:function(id){
+		/*
+		 * @method remove_charector: Remove a charector by its id
+		 * @param a valid gid
+		 */
+		if(GAME.Charectors.list.hasOwnProperty(id)){
+			GAME.Charectors.list[id].instance.remove();
+			return true;	
+		}else{
+			log('remove_charector: Invalid Id');
+			return false;
+		}
+	},
+	move_charector:function(id, position){
+		if(GAME.Charectors.list.hasOwnProperty(id)){
+			var poss = GAME.Grid.grid_bounds[position];
+			GAME.Charectors.list[id].instance.moveTo(poss.start_x, poss.start_y);
+			return true;
+		}else{
+			log('move_charector: Invalid Id');
+			return false;
+		}
+
+	},	
 });
 
 

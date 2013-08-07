@@ -3,7 +3,12 @@
  * */
 
 DEBUG = true;
-
+var g; // generic var to hold anything. 
 function test_one_charector(){
-	GAME.add_charector('test', 1);	
+	g = GAME.add_charector('test', 1);
+	log(arguments.callee.name + ":", g);	
+}
+
+function test_remove_charector(){
+	GAME.remove_charector(g);
 }
